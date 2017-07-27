@@ -32,9 +32,9 @@ module.exports = function(Model, options) {
 
                 // set key name
                 var crypto = require('crypto');
-                var request_key = new Buffer(JSON.stringify(ctx.req.query)).toString('base64');
+                var request_key = JSON.stringify(ctx.req.query).toString();
                 request_key = crypto.createHash('md5').update(request_key).digest("hex");
-                var cache_key = modelName +'_' + request_key;
+                var cache_key = modelName + request_key;
 
                 // search for cache
                 client.get(cache_key, function(err, val) {
@@ -70,9 +70,9 @@ module.exports = function(Model, options) {
 
                 // set key name
                 var crypto = require('crypto');
-                var request_key = new Buffer(JSON.stringify(ctx.req.query)).toString('base64');
+                var request_key = JSON.stringify(ctx.req.query).toString();
                 request_key = crypto.createHash('md5').update(request_key).digest("hex");
-                var cache_key = modelName +'_' + request_key;
+                var cache_key = modelName + request_key;
                 // search for cache
                 client.get(cache_key, function(err, val) {
                     if(err){
@@ -104,7 +104,7 @@ module.exports = function(Model, options) {
             var cachExpire = ctx.req.query.cache;
 
             // set key name
-            var cache_key = modelName+'_*';
+            var cache_key = modelName+'*';
 
             // delete cache
             redisDeletePattern({

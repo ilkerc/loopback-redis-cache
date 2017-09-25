@@ -41,11 +41,13 @@ module.exports = function(Model, options) {
 
                     if(val !== null){
                         ctx.result = JSON.parse(val);
+                        ctx.res.setHeader('Cache-Hit', true)
                         ctx.done(function(err) {
                             if (err) return next(err);
                         });
                     }else{
                         //return data
+                        ctx.res.setHeader('Cache-Hit', false)
                         next();
                     }                
                 });    

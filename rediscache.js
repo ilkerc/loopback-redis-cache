@@ -27,7 +27,7 @@ module.exports = function(Model, options) {
         // get all find methods and search first in cache
         if((ctx.method.name.indexOf("find") !== -1 || ctx.method.name.indexOf("__get") !== -1 || ctx.method.name.indexOf("get") !== -1) && client.connected){
             if(typeof ctx.req.query.cache != 'undefined'){
-                var modelName = ctx.method.sharedClass.name;
+                var modelName = ctx.method.sharedClass.name + '_' + ctx.method.name;
                 var cachExpire = ctx.req.query.cache;
 
                 // set key name
@@ -76,7 +76,7 @@ module.exports = function(Model, options) {
         // get all find methods and search first in cache - if not exist save in cache
         if((ctx.method.name.indexOf("find") !== -1 || ctx.method.name.indexOf("__get") !== -1 || ctx.method.name.indexOf("get") !== -1) && client.connected){
             if(typeof ctx.req.query.cache != 'undefined'){
-                var modelName = ctx.method.sharedClass.name;
+                var modelName = ctx.method.sharedClass.name + '_' + ctx.method.name;
                 var cachExpire = ctx.req.query.cache;
 
                 // set key name
@@ -108,7 +108,7 @@ module.exports = function(Model, options) {
     Model.afterRemote('**', function(ctx, res, next) {
         // delete cache on patchOrCreate, create, delete, update, destroy, upsert
         if((ctx.method.name.indexOf("find") == -1 && ctx.method.name.indexOf("__get") == -1) && client.connected){
-            var modelName = ctx.method.sharedClass.name;
+            var modelName = ctx.method.sharedClass.name + '_' + ctx.method.name;
             var cachExpire = ctx.req.query.cache;
 
             // set key name
